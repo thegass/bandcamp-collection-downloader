@@ -24,6 +24,15 @@ class Util(private val logger: Logger) {
         for ((old, new) in Constants.UNICODE_CHARS_REPLACEMENTS) {
             result = result.replace(old, new)
         }
+
+        //if result is longer than 255 characters, abbreviate it to 255 characters with trailing string "...more" so that the length is max 255 characters
+        if (result.length > 255) {
+            val suffix="...more"
+            val suffixLength = suffix.length
+            result = result.substring(0, 245 - suffixLength) + suffix
+        }
+
+
         return result
     }
 
