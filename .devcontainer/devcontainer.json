@@ -12,6 +12,7 @@
 			// Options
 			"INSTALL_MAVEN": "false",
 			"INSTALL_GRADLE": "true",
+			"GRADLE_VERSION": "7.6.4",
 			"NODE_VERSION": "lts/*"
 		}
 	},
@@ -32,17 +33,12 @@
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 	"features": {
-		"git": "latest"
+		"git": "os-provided"
 	},
 
 	// From here, options required to make it work with rootless podman + selinux, instead of Docker.
 	// See https://code.visualstudio.com/remote/advancedcontainers/docker-options#_podman
 	// And https://github.com/microsoft/vscode-remote-release/issues/1333
-	"workspaceMount": "",
-	"runArgs": [
-		"--volume=${localWorkspaceFolder}:/workspaces/${localWorkspaceFolderBasename}:Z",
-		"--userns=keep-id"
-	],
 	"containerEnv": {
 		"HOME": "/home/vscode"
 	}
