@@ -1,6 +1,7 @@
 package bandcampcollectiondownloader.core
 
 import bandcampcollectiondownloader.util.Util
+import bandcampcollectiondownloader.util.DelayedJsoup
 import com.google.gson.Gson
 import org.jsoup.Connection.Method
 import org.jsoup.HttpStatusException
@@ -14,6 +15,8 @@ class BandcampAPIConnector constructor(
     private val skipHiddenItems: Boolean,
     private val timeout: Int,
     private val retries: Int,
+    private val minDelay: Long,
+    private val maxDelay: Long,
     private val util: Util
 ) {
 
@@ -91,7 +94,7 @@ class BandcampAPIConnector constructor(
             val doc =
                 util.retry({
                     try {
-                        Jsoup.connect("https://bandcamp.com/$bandcampUser")
+                        DelayedJsoup.connectWithDelay("https://bandcamp.com/$bandcampUser",minDelay,maxDelay)
                             .timeout(timeout)
                             .cookies(cookies)
                             .get()
@@ -166,7 +169,7 @@ class BandcampAPIConnector constructor(
             // Append download pages from this api endpoint as well
             val theRest =
                 util.retry({
-                    Jsoup.connect("https://bandcamp.com/api/fancollection/1/${collectionName}")
+                    DelayedJsoup.connectWithDelay("https://bandcamp.com/api/fancollection/1/${collectionName}",minDelay,maxDelay)
                         .ignoreContentType(true)
                         .timeout(timeout)
                         .cookies(cookies)
@@ -211,7 +214,7 @@ class BandcampAPIConnector constructor(
             // Get page content
             util.retry({
                 try {
-                    val downloadPage = Jsoup.connect(saleItemURL)
+                    val downloadPage = DelayedJsoup.connectWithDelay(saleItemURL,minDelay,maxDelay)
                         .cookies(cookies)
                         .timeout(timeout).get()
 
@@ -254,7 +257,7 @@ class BandcampAPIConnector constructor(
 
         // Get statdownload JSON
         val statedownloadUglyBody: String = util.retry({
-            Jsoup.connect(statdownloadURL)
+            DelayedJsoup.connectWithDelay(statdownloadURL,minDelay,maxDelay)
                 .cookies(cookies)
                 .timeout(timeout)
                 .get().body().select("body")[0].text().toString()

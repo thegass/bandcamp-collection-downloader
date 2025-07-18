@@ -27,6 +27,12 @@ Download items from an existing Bandcamp account collection.
   -f, --audio-format=<audioFormat>
                             The chosen audio format of the files to download (default: vorbis).
                             Possible values: flac, wav, aac-hi, mp3-320, aiff-lossless, vorbis, mp3-v0, alac.
+  --delay-requests-randomly
+                            Add a random delay between requests to avoid being blocked (http error 429) by Bandcamp.
+  --delay-requests-max=<delayRequestsMax>
+                            Maximum delay in ms between requests (default: 2000).
+  --delay-requests-min=<delayRequestsMin>
+                            Minimum delay in ms between requests (default: 1000).
   -h, --help                Show this help message and exit.
   -j, --jobs=<jobs>         Amount of parallel jobs (threads) to use (default: 4).
   -n, --dry-run             Perform a trial run with no changes made on the filesystem.
@@ -34,6 +40,7 @@ Download items from an existing Bandcamp account collection.
   -s, --skip-hidden         Don't download hidden items of the collection.
   -t, --timeout=<timeout>   Timeout in ms before giving up an HTTP connection (default: 50000).
   -V, --version             Print version information and exit.
+  --debug                   Print extra debug information, including the complete java stack trace on error.
 ....
 
 === Bandcamp authentication

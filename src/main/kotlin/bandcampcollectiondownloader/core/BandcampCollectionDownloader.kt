@@ -47,6 +47,9 @@ class BandcampCollectionDownloader(
         logger.log("Target Bandcamp account: " + args.bandcampUser)
         logger.log("Target download folder: " + args.pathToDownloadFolder.toAbsolutePath().normalize())
         logger.log("Target audio format: " + args.audioFormat)
+        if (args.delayRequestsRandomly) {
+            logger.log("Random delay between requests: ${args.delayRequestsMin} to ${args.delayRequestsMax} ms")
+        }
         logger.logSeparator()
 
         // Gather cookies
@@ -77,6 +80,8 @@ class BandcampCollectionDownloader(
                         args.skipHiddenItems,
                         args.timeout,
                         args.retries,
+                        if(args.delayRequestsRandomly) args.delayRequestsMin else 0,
+                        if(args.delayRequestsRandomly) args.delayRequestsMax else 0,
                         util
                     )
                 candidateConnector.init()

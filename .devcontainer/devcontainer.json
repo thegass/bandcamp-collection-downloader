@@ -1,0 +1,49 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/java
+{
+	"name": "Java",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			// Update the VARIANT arg to pick a Java version: 11, 17
+			// Append -bullseye or -buster to pin to an OS version.
+			// Use the -bullseye variants on local arm64/Apple Silicon.
+			"VARIANT": "11",
+			// Options
+			"INSTALL_MAVEN": "false",
+			"INSTALL_GRADLE": "true",
+			"GRADLE_VERSION": "8.10.2",
+			"NODE_VERSION": "lts/*"
+		}
+	},
+	// Set *default* container specific settings.json values on container create.
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"java.jdt.ls.java.home": "/docker-java-home"
+			},
+			"extensions": [
+				"vscjava.vscode-java-pack",
+				"naco-siren.gradle-language",
+				"fwcd.kotlin",
+				"eamodio.gitlens"
+			]
+		}
+	}
+	,// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "java -version",
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+	"features": {
+		"git": "os-provided"
+	},
+
+	// From here, options required to make it work with rootless podman + selinux, instead of Docker.
+	// See https://code.visualstudio.com/remote/advancedcontainers/docker-options#_podman
+	// And https://github.com/microsoft/vscode-remote-release/issues/1333
+	"containerEnv": {
+		"HOME": "/home/vscode"
+	}
+}

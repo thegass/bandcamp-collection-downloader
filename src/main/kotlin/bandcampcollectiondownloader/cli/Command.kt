@@ -8,6 +8,7 @@ import picocli.CommandLine
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.Callable
+import kotlin.require
 
 
 @CommandLine.Command(
@@ -87,7 +88,30 @@ class Command : Callable<Int> {
         names = ["--no-covers-single-track"],
         description = ["Do not try to download covers for single-track releases. Useful when the ISP is blocking the Bandcamp server providing covers."]
     )
+
     var noCoversSingleTrack: Boolean = false
+
+    @CommandLine.Option(
+        names = ["--delay-requests-randomly"],
+        description = ["Add a random delay between requests to avoid being blocked (http error 429) by Bandcamp."]
+    )
+
+    var delayRequestsRandomly: Boolean = false
+
+    @CommandLine.Option(
+        names = ["--delay-requests-min"], required = false,
+        description = ["Minimum delay in ms between requests (default: 1000)."]
+    )
+
+    var delayRequestsMin: Long = 500
+
+    @CommandLine.Option(
+        names = ["--delay-requests-max"], required = false,
+        description = ["Maximum delay in ms between requests (default: 2000)."]
+    )
+
+    var delayRequestsMax: Long = 2000
+
 
     override fun call(): Int {
         val logger = Logger(this.debug)
